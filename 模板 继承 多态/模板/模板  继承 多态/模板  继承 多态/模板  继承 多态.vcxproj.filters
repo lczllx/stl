@@ -15,13 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\c++\OneDrive\桌面\duotai.cpp">
+    <ClCompile Include="moban.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\c++\OneDrive\桌面\jicheng.cpp">
+    <ClCompile Include="jicheng.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\c++\OneDrive\桌面\moban.cpp">
+    <ClCompile Include="duotai.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

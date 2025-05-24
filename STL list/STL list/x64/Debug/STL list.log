@@ -1,2 +1,4 @@
 ﻿  stl_list.cpp
-  STL list.vcxproj -> D:\cpp练习\STL\STL list\x64\Debug\STL list.exe
+D:\cpp练习\STL\stl\STL list\STL list\stl_list.cpp(51,1): error C2059: 语法错误:“?”
+D:\cpp练习\STL\stl\STL list\STL list\stl_list.cpp(52,1): error C2143: 语法错误: 缺少“;”(在“{”的前面)
+D:\cpp练习\STL\stl\STL list\STL list\stl_list.cpp(52,1): error C2447: “{”: 缺少函数标题(是否是老式的形式表?)

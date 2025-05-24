@@ -36,15 +36,45 @@ void test_list1() {
 	for (auto e : lt)cout << e << " ";
 	cout << endl;
 }
-void test_list2() {
-	 
-}
+//void test_list2() {
+//	 
+//}
 
-int main() {
+//int main() {
+//
+//	/*test_list1();
+//	test_list2();*/
+//	//lcz::test_list1();
+//	lcz::test_list3();
+//	return 0;
+//}
+?int main()
+{
 
-	/*test_list1();
-	test_list2();*/
-	//lcz::test_list1();
-	lcz::test_list3();
+	int ar[] = { 0,1, 2, 3, 4,  5, 6, 7, 8, 9 };
+
+	int n = sizeof(ar) / sizeof(int);
+
+	list<int> mylist(ar, ar + n);
+
+	list<int>::iterator pos = find(mylist.begin(), mylist.end(), 5);
+
+	reverse(mylist.begin(), pos);
+
+	reverse(pos, mylist.end());
+
+	list<int>::const_reverse_iterator crit = mylist.crbegin();
+
+	while (crit != mylist.crend())
+
+	{
+
+		cout << *crit << " ";
+
+		++crit;
+
+	}
+
+	cout << endl;
 	return 0;
 }

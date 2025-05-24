@@ -18,6 +18,11 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="duotai.cpp" />
+    <ClCompile Include="jicheng.cpp" />
+    <ClCompile Include="moban.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -126,11 +131,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\c++\OneDrive\桌面\duotai.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\c++\OneDrive\桌面\jicheng.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\c++\OneDrive\桌面\moban.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
