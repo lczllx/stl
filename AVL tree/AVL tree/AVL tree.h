@@ -224,11 +224,13 @@ public:
 
 
 
-
+	int Hight() {
+		return hight(_root);
+	}
 	int hight(Node* root) {
 		if (root == nullptr)return 0;
 		int lh = hight(root->_left);
-		int rh = hight(r oot->_right);
+		int rh = hight(root->_right);
 		return lh > rh ? lh + 1 : rh + 1;
 	}
 	void destory(Node* root) {

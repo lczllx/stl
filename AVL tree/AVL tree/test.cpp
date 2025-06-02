@@ -33,6 +33,7 @@ int main() {
 		
 		t.Insert({ e,e });
 		cout << "insert:" << e << "->" << t.IsBalance() << endl;
+		cout << t.Hight() << endl;
 	}
 	return 0;
 }
