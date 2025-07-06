@@ -1,0 +1,12 @@
+﻿  mystring2.h
+D:\cpp练习\STL\stl\reviewcpp\reviewcpp\mystring2.h(192,44): warning C4804: “<”: 在操作中使用类型“bool”不安全
+  Mystring.cpp
+D:\cpp练习\STL\stl\reviewcpp\reviewcpp\mystring2.h(192,44): warning C4804: “<”: 在操作中使用类型“bool”不安全
+  (编译源文件“Mystring.cpp”)
+  
+  test.cpp
+  正在生成代码...
+Mystring.obj : error LNK2005: "class std::basic_istream<char,struct std::char_traits<char> > & __cdecl lcz::operator>>(class std::basic_istream<char,struct std::char_traits<char> > &,class lcz::string &)" (??5lcz@@YAAEAV?$basic_istream@DU?$char_traits@D@std@@@std@@AEAV12@AEAVstring@0@@Z) 已经在 mystring2.obj 中定义
+Mystring.obj : error LNK2005: "class std::basic_ostream<char,struct std::char_traits<char> > & __cdecl lcz::operator<<(class std::basic_ostream<char,struct std::char_traits<char> > &,class lcz::string const &)" (??6lcz@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV12@AEBVstring@0@@Z) 已经在 mystring2.obj 中定义
+Mystring.obj : error LNK2005: "public: static unsigned __int64 const lcz::string::npos" (?npos@string@lcz@@2_KB) 已经在 mystring2.obj 中定义
+D:\cpp练习\STL\stl\reviewcpp\x64\Debug\reviewcpp.exe : fatal error LNK1169: 找到一个或多个多重定义的符号
