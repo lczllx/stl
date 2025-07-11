@@ -230,7 +230,7 @@ void test_string9()
 
 int main()
 {
-	test_string5();
+	test_string9();
 
 	return 0;
 }
