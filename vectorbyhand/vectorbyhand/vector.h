@@ -86,7 +86,7 @@ namespace lcz {
 				_end_of_storage = _start + n;
 			}
 		}
-		void resize(size_t n,const T&val=T()
+		void resize(size_t n,const T&val=T())
 		{
 			if (n < size())
 			{
@@ -109,12 +109,13 @@ namespace lcz {
 		}
 		void pop_back()
 		{
-			erase(--end());
+			iterator it = end();
+			erase(--it);
 		}
 		iterator insert(iterator pos,const T&x) 
 		{
 			assert(pos <= _finish && pos >= _start);
-				if (_finish == _end_of_storage);
+				if (_finish == _end_of_storage)
 				{
 					size_t len = pos - _start;
 
@@ -159,6 +160,7 @@ namespace lcz {
 			std::swap(_finish, vct._finish);
 			std::swap(_end_of_storage, vct._end_of_storage);
 		}
+
 		size_t size() const
 		{
 			return _finish - _start;
@@ -171,6 +173,11 @@ namespace lcz {
 		{
 			return _start == _finish;
 		}
+		void clear() 
+		{
+			_finish = _start;
+		}
+
 	private:
 		iterator _start = nullptr;       // 数据块起始位置
 		iterator _finish = nullptr;      // 有效数据末尾的下一位
