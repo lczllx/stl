@@ -1,5 +1,6 @@
-//#include<iostream>
-//using namespace std;
+#include<iostream>
+#include<string>
+using namespace std;
 ////class Animal {
 ////public:
 ////    void eat() {
@@ -151,3 +152,23 @@
 //
 //	return 0;
 //}
+
+class person {
+protected:
+	string name;
+	int age;
+	string address;
+	int tel;
+};
+class student :public person
+{
+	int stage;
+};
+
+
+int main() {
+
+	student st;
+	cout << st.age << endl;
+	return 0;
+}

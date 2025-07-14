@@ -39,23 +39,23 @@
 //    return 0;
 //}
 
-#include <iostream>
-using namespace std;
-class person {
-public:
-    virtual void show() { cout << "person" << endl; }
-
-private:
-    int _a;
-};
-class student : public person {
-public:
-    void show() { cout << "student" << endl; }
-private:
-    int _b;
-};
-int main() {
-    
-
-    return 0;
-}
+//#include <iostream>
+//using namespace std;
+//class person {
+//public:
+//    virtual void show() { cout << "person" << endl; }
+//
+//private:
+//    int _a;
+//};
+//class student : public person {
+//public:
+//    void show() { cout << "student" << endl; }
+//private:
+//    int _b;
+//};
+//int main() {
+//    
+//
+//    return 0;
+//}
