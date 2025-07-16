@@ -153,22 +153,61 @@ using namespace std;
 //	return 0;
 //}
 
+//class person {
+//protected:
+//	string name;
+//	int age;
+//	string address;
+//	int tel;
+//};
+//class student :public person
+//{
+//	int stage;
+//};
+//
+//
+//int main() {
+//
+//	student st;
+//	cout << st.age << endl;
+//	return 0;
+//}
+
+
 class person {
-protected:
+public:
 	string name;
 	int age;
-	string address;
-	int tel;
+	/*string address;
+	int tel;*/
 };
-class student :public person
+class student :virtual public person
 {
-	int stage;
+protected:
+	
+	int _num;
 };
+class teacher :virtual public person
+{
+protected:
 
-
+	int _id;
+};
+class test :public student, public teacher
+{
+protected:
+	string lesson;
+};
+	
 int main() {
 
-	student st;
-	cout << st.age << endl;
+	test st;
+	st.student::age = 55;
+	st.teacher::age = 11;
+
+
+	st.age=56;
+
+
 	return 0;
 }
