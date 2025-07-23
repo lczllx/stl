@@ -138,6 +138,16 @@ namespace hash_bucket {
 			return num;
 		}
 	};
+	template<>
+	struct defaulthashfunc<const char*> {
+		size_t operator()(const char* key) {
+			size_t hash = 0;
+			while (*key) {
+				hash = hash * 131 + *key++;
+			}
+			return hash;
+		}
+	};
 	template<class T>
 	struct hashnode {
 		T _data;
@@ -146,13 +156,115 @@ namespace hash_bucket {
 			: _data(data), _next(nullptr) {
 		}
 	};
+	//前置声明
+	template<class K, class T, class KeyofT, class hashfunc>
+	class hashTable;
+	template<class K, class T,class Ptr,class Ref, class KeyofT, class hashfunc = defaulthashfunc<K>>
+	struct hashiterator {
+		typedef hashnode<T> Node;
+		//取类模板里面的内嵌类型，编译器不能区分时才加typename
+		typedef hashiterator<K, T, Ptr, Ref, KeyofT, hashfunc> Self;
+		typedef hashiterator<K, T, T*,T&, KeyofT, hashfunc> iterator;
+		//typedef hashiterator< T,T&,T*> iterator;
+		const hashTable<K, T, KeyofT, hashfunc>* _ht;
+		Node* _node;
+		KeyofT kot;
+		hashfunc hf;
+		hashiterator(const iterator&it)
+			:_node(it._node)
+			,_ht(it._ht)
+		{ }
+		hashiterator(Node* node, hashTable<K, T, KeyofT, hashfunc>* ht)
+			:_node(node),_ht(ht)
+		{ }
+		hashiterator(Node* node,const hashTable<K, T, KeyofT, hashfunc>* ht)
+			:_node(node), _ht(ht)
+		{
+		}
+		Ref operator*()
+		{
+			return (_node->_data);
+		}
+		Ptr operator->()
+		{
+			return &(_node->_data);
+		}
+		Self& operator++()
+		{
+			if (_node->_next)
+			{
+				//当前桶
+				_node = _node->_next;
+			}
+			else {
+				//_ht类外面不能访问，要声明友元
+				size_t pos = hf(kot(_node->_data)) % _ht->_table.size();
+				//从下一个位置查找下一个不为空的桶
+				++pos;
+				while (pos < _ht->_table.size())
+				{
+					if (_ht->_table[pos]) {
+						_node = _ht->_table[pos];
+						return *this;
+					}
+					else {
+						++pos;
+					}
+				}
+				_node = nullptr;
+				return *this;
+			}
+			return *this;
+		}
 
-	
+		bool operator!=(const Self& s)
+		{
+			return _node != s._node;
+		}
+
+		bool operator==(const Self& s)
+		{
+			return _node == s._node;
+		}
+	};
 
 	template<class K, class T,class KeyofT,class hashfunc= defaulthashfunc<K>>
 	class hashTable {
 		typedef hashnode<T> Node;
+		//迭代器是哈希表的友元
+		template<class K, class T,class Ptr,class Ref, class KeyofT, class hashfunc>
+		friend struct hashiterator;
 	public:
+		typedef hashiterator<K, T,T*,T&, KeyofT, hashfunc> iterator;
+		typedef hashiterator<K, T,const T*,const T&, KeyofT, hashfunc> const_iterator;
+		iterator begin()
+		{
+			for (size_t i = 0; i < _table.size(); i++) {
+				Node* cur = _table[i];
+				if (cur) {
+					return iterator(cur, this);
+				}
+			}
+			return iterator(nullptr, this);
+		}
+		iterator end()
+		{
+			return iterator(nullptr, this);
+		}
+		const_iterator begin()const
+		{
+			for (size_t i = 0; i < _table.size(); i++) {
+				Node* cur = _table[i];
+				if (cur) {
+					return const_iterator(cur, this);
+				}
+			}
+			return const_iterator(nullptr, this);
+		}
+		const_iterator end()const
+		{
+			return const_iterator(nullptr, this);
+		}
 		hashTable()
 		{
 			_table.resize(10, nullptr);
@@ -171,12 +283,13 @@ namespace hash_bucket {
 			}
 			_n = 0;
 		}
-		bool insert(const T& data)
+	     std::pair<iterator, bool> insert(const T& data)
 		{
 			KeyofT kot;
 			hashfunc hf;
-
-			if(find(kot(data)))return false;
+			iterator it= find(kot(data));
+				if (it != end())
+				return std::make_pair(it,false);
 			//负载因子控制在1再扩容
 			if (_n == _table.size())
 			{
@@ -206,21 +319,24 @@ namespace hash_bucket {
 			newnode->_next = _table[pos];
 			_table[pos] = newnode;
 			++_n;
-			return true;
+			return make_pair(iterator(newnode,this),true);
 		}
 
-		Node* find(const K& key) {
+		iterator find(const K& key) {
+			if (_table.size() == 0) {
+				return end();
+			}
 			hashfunc hf;
 			KeyofT kot;
 			size_t pos = hf(key) % _table.size();
 			Node* cur = _table[pos];
 			while (cur) {
 				if (kot(cur->_data) == key) {
-					return cur;
+					return iterator(cur, this);
 				}
 				cur = cur->_next;
 			}
-			return nullptr;
+			return end();
 		}
 		bool erase(const K& key) {
 			//if (!find(key))return false;
@@ -228,7 +344,7 @@ namespace hash_bucket {
 				return false;
 			}
 			hashfunc hf;
-
+			KeyofT kot;
 			size_t pos = hf(kot(key)) % _table.size();
 			Node* cur = _table[pos];
 			Node* prev = nullptr;
@@ -242,20 +358,16 @@ namespace hash_bucket {
 						prev->_next = cur->_next;
 					}
 					delete cur;
+					--_n;
+
 					return true;
 				}
 				prev = cur;
 				cur = cur->_next;
 			}
+			
 			return false;
 		}
-
-
-
-
-
-
-
 
 	private:
 		std::vector<Node*> _table;//指针数组

@@ -123,6 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="bitmap.h" />
     <ClInclude Include="hashtable.h" />
     <ClInclude Include="unordered_map.h" />
     <ClInclude Include="unordered_set.h" />
