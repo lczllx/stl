@@ -29,6 +29,12 @@ namespace lcz {
 		vector(int n, const T& val = T()) {
 			resize(n, val);
 		}
+		vector(std::initializer_list<T> lt) {
+			reserve(lt.size());
+			for (auto e : lt) {
+				push_back(e);
+			}
+		}
 		vector(size_t n,const T&val=T()){
 			resize(n, val);
 		}
