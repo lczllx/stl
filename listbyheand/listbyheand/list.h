@@ -12,6 +12,11 @@ namespace lcz {
 			,_prev(nullptr)
 			,_val(val)
 		{ }
+		list_node(T&& val = T())
+			:_next(nullptr)
+			, _prev(nullptr)
+			, _val(std::forward<T>(val))
+		{}
 	};
 
 	template<class T,class Ref,class Ptr>
@@ -88,7 +93,7 @@ namespace lcz {
 			_sz = 0;
 		}
 		void empty_init() {
-			_head = new Node;
+			_head = new Node(T());
 			_head->_next = _head;
 			_head->_prev = _head;
 			_sz = 0;
@@ -99,8 +104,20 @@ namespace lcz {
 			empty_init();
 			for (auto& e : lt)push_back(e);
 		}
+		list(list&& lt)
+		{
+			empty_init();
+			swap(lt);
+		}
 		list& operator=(list<T>lt) {
 			swap(lt);
+			return *this;
+		}
+		list& operator=(list&& lt) noexcept {
+			if (this != &lt) {
+				swap(lt);
+				lt.clear();  // 清理源对象
+			}
 			return *this;
 		}
 		~list() {
@@ -121,8 +138,24 @@ namespace lcz {
 			++_sz;
 			return iterator(newnode);
 		}
+		iterator insert(iterator pos,T&& x) {
+			Node* newnode = new Node(std::forward<T>(x));
+			Node* cur = pos._node;
+			Node* prev = cur->_prev;
+			cur->_prev = newnode;
+			prev->_next = newnode;
+			newnode->_next = cur;
+			newnode->_prev = prev;
+
+			++_sz;
+			return iterator(newnode);
+		}
 		void push_back(const T& x) {
 			insert(end(), x);
+		}
+		void push_back( T&& x) {
+			//完美转发
+			insert(end(),std::forward<T>(x));
 		}
 		void pop_back() {
 			if(_sz>0)erase(--end());
